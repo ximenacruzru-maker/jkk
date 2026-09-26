@@ -37,6 +37,16 @@ npm run test:e2e     # after build: autosave, backup/restore, every page × them
 
 `test:e2e` uses Playwright's Chromium; set `CHROMIUM_PATH` to use another Chrome.
 
+## One-file version (no web server)
+
+```bash
+npm run build:single   # writes dist-single/Declara-Teacher.html
+```
+
+A single ~2 MB HTML file with everything inside it. Double-click it to open the full app, with no internet connection
+(tested in Chrome). Data is saved in that browser. Keep the file in one place — depending on the browser, moving or
+renaming it can open a fresh, empty app — and use Settings › Data & backup to move data between computers.
+
 ## Deploy
 
 `dist/` is a static site: host it on GitHub Pages, Netlify, Cloudflare Pages or any web server. It needs no server-side

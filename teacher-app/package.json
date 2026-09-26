@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test:e2e": "node tests/e2e.mjs"
+    "test:e2e": "node tests/e2e.mjs",
+    "build:single": "tsc -b && vite build --mode single && node scripts/single-file.mjs"
   },
   "dependencies": {
     "@fontsource/abril-fatface": "^5.2.0",
