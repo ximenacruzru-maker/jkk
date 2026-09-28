@@ -25,6 +25,9 @@ export default function Layout({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState(getLook().theme)
   useEffect(() => onLook((l) => setTheme(l.theme)), [])
   useEffect(() => { setMenu(false); setQa(false); setDrawer(false) }, [pathname, search])
+  // Each new page starts at the top (the page area scrolls on its own, so the browser doesn't reset it).
+  const main = useRef<HTMLElement>(null)
+  useEffect(() => { main.current?.scrollTo(0, 0); window.scrollTo(0, 0) }, [pathname])
   useEffect(() => {
     if (!drawer) return
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setDrawer(false) }
@@ -115,7 +118,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             </div>
           </div>
         </header>
-        <main className="page">
+        <main className="page" ref={main}>
           <StorageWarning />
           {children}
         </main>
