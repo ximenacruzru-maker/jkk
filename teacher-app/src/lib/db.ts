@@ -2,7 +2,8 @@
 // Nothing here talks to a network; the data never leaves the device unless the teacher downloads a backup.
 import { STORES, type StoreName } from './model'
 
-export const DB_NAME = 'declara-teacher'
+// The demo build keeps its sample classroom in a separate database, so it never mixes with a real classroom.
+export const DB_NAME = __DEMO__ ? 'declara-teacher-demo' : 'declara-teacher'
 export const DB_VERSION = 1
 
 type Index = [name: string, keyPath: string | string[], opts?: IDBIndexParameters]

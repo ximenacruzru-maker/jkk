@@ -37,7 +37,8 @@ applyLook(cachedLook())
 // The demo build (npm run build:demo) opens straight into the made-up sample classroom, for showing and mockups.
 async function start() {
   await init()
-  if (__DEMO__ && !db().get('settings', 'profile')) await replaceData(sampleData())
+  // Also reload it if the classroom has been emptied, so the demo always has plenty to show.
+  if (__DEMO__ && !db().list('students').length) await replaceData(sampleData())
 }
 
 start().finally(() => createRoot(document.getElementById('root')!).render(

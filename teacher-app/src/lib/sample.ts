@@ -10,11 +10,12 @@ function rng(seed: number) {
   return () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296 }
 }
 
+// Eight students per class, in class order: Kindergarten, 1st Grade Reading, 2nd Grade Math, 3rd Grade Science.
 const NAMES = [
-  'Emma Garcia', 'Liam Johnson', 'Sofia Martinez', 'Noah Brown', 'Olivia Wilson', 'Ava Davis',
-  'Mason Lee', 'Isabella Clark', 'Ethan Lewis', 'Mia Walker', 'Lucas Hall', 'Amelia Young',
-  'James King', 'Harper Scott', 'Benjamin Green', 'Charlotte Adams', 'Elijah Baker', 'Evelyn Nelson',
-  'Henry Carter', 'Abigail Mitchell', 'Jack Perez', 'Emily Roberts', 'Daniel Turner', 'Ella Phillips',
+  'Emma Garcia', 'Liam Johnson', 'Ava Davis', 'Mason Lee', 'Isabella Clark', 'Ethan Lewis', 'Mia Walker', 'Amelia Young',
+  'Noah Brown', 'Olivia Wilson', 'Sofia Martinez', 'James King', 'Charlotte Adams', 'Elijah Baker', 'Evelyn Nelson', 'Henry Carter',
+  'Lucas Hall', 'Benjamin Green', 'Abigail Mitchell', 'Jack Perez', 'Emily Roberts', 'Daniel Turner', 'Ella Phillips', 'Chloe Ramirez',
+  'Harper Scott', 'Matthew Torres', 'Zoe Nguyen', 'Samuel Hill', 'Lily Flores', 'David Kim', 'Aria Patel', 'Leo Campbell',
 ]
 const TAGS = ['Group A', 'Group B', 'Class helper', 'Extra support', 'Early finisher', 'Bus rider']
 
@@ -62,9 +63,9 @@ export function sampleData(teacher?: { teacherName?: string; school?: string }):
   CLASSES.forEach((c, ci) => {
     const cls = { ...base(), name: c.name, grade: c.grade, subject: c.subject, schoolYear: DEFAULT_PROFILE.schoolYear, room: c.room, description: c.description, color: CLASS_COLORS[ci], archived: false }
     out.classes.push(cls)
-    const kids = NAMES.slice(ci * 6, ci * 6 + 6).map((n, k) => {
+    const kids = NAMES.slice(ci * 8, ci * 8 + 8).map((n, k) => {
       const [firstName, lastName] = n.split(' ')
-      const s = { ...base(), firstName, lastName, studentCode: `S${1040 + ci * 6 + k}`, classIds: [cls.id], grade: c.grade, tags: r() < 0.5 ? [TAGS[Math.floor(r() * TAGS.length)]] : [], about: '' }
+      const s = { ...base(), firstName, lastName, studentCode: `S${1040 + ci * 8 + k}`, classIds: [cls.id], grade: c.grade, tags: r() < 0.5 ? [TAGS[Math.floor(r() * TAGS.length)]] : [], about: '' }
       ability.set(s.id, 0.55 + r() * 0.42)
       sid[n] = s.id
       out.students.push(s)
@@ -96,7 +97,7 @@ export function sampleData(teacher?: { teacherName?: string; school?: string }):
   })
 
   const cid = (n: string) => out.classes.find((c) => c.name === n)!.id
-  const goal = (g: any) => out.goals.push({ ...base(), description: '', skillId: null, studentId: null, classId: null, ...g })
+  const goal = (g: any) => out.goals.push({ ...base(), description: '', skillId: null, studentId: null, classId: null, ...g, ...(g.studentId ? { classId: out.students.find((x) => x.id === g.studentId)?.classIds[0] ?? null } : {}) })
   goal({ scope: 'class', classId: cid('1st Grade Reading'), title: 'Read 20 minutes every day', subject: 'Reading', skillId: skill['Reading fluency'], startDate: addDays(t0, -30), targetDate: addDays(t0, 30), progress: 45, status: 'in_progress', description: 'Every student logs 20 minutes of reading at home or in class.' })
   goal({ scope: 'class', classId: cid('2nd Grade Math'), title: 'Master addition facts to 20', subject: 'Math', skillId: skill['Addition within 20'], startDate: addDays(t0, -40), targetDate: addDays(t0, 10), progress: 60, status: 'in_progress' })
   goal({ scope: 'student', studentId: sid['Noah Brown'], classId: cid('1st Grade Reading'), title: 'Read 60 words per minute', subject: 'Reading', skillId: skill['Reading fluency'], startDate: addDays(t0, -35), targetDate: addDays(t0, 5), progress: 40, status: 'in_progress', description: 'Currently around 38 wpm on grade-level passages.' })
@@ -106,6 +107,13 @@ export function sampleData(teacher?: { teacherName?: string; school?: string }):
   goal({ scope: 'student', studentId: sid['Harper Scott'], classId: cid('3rd Grade Science'), title: 'Write a hypothesis for each lab', subject: 'Science', skillId: skill['Scientific observation'], startDate: addDays(t0, -10), targetDate: addDays(t0, 50), progress: 20, status: 'in_progress' })
   goal({ scope: 'student', studentId: sid['Olivia Wilson'], classId: cid('1st Grade Reading'), title: 'Retell a story with beginning, middle and end', subject: 'Reading', startDate: addDays(t0, -5), targetDate: addDays(t0, 60), progress: 0, status: 'not_started' })
 
+  goal({ scope: 'student', studentId: sid['Zoe Nguyen'], title: 'Label the parts of a plant', subject: 'Science', skillId: skill['Scientific observation'], startDate: addDays(t0, -18), targetDate: addDays(t0, 12), progress: 70, status: 'in_progress' })
+  goal({ scope: 'student', studentId: sid['Jack Perez'], title: 'Skip count by 2s, 5s and 10s', subject: 'Math', startDate: addDays(t0, -30), targetDate: addDays(t0, -1), progress: 80, status: 'in_progress' })
+  goal({ scope: 'student', studentId: sid['Mia Walker'], title: 'Write first and last name', subject: 'Writing', startDate: addDays(t0, -40), targetDate: addDays(t0, -10), progress: 100, status: 'achieved' })
+  goal({ scope: 'student', studentId: sid['Henry Carter'], title: 'Learn 50 sight words', subject: 'Reading', skillId: skill['Sight words'], startDate: addDays(t0, -28), targetDate: addDays(t0, 21), progress: 50, status: 'in_progress' })
+  goal({ scope: 'class', classId: cid('3rd Grade Science'), title: 'Keep a science journal every week', subject: 'Science', skillId: skill['Scientific observation'], startDate: addDays(t0, -21), targetDate: addDays(t0, 45), progress: 35, status: 'in_progress' })
+  goal({ scope: 'class', classId: cid('Kindergarten'), title: 'Count to 100 as a class', subject: 'Math', skillId: skill['Counting to 100'], startDate: addDays(t0, -35), targetDate: addDays(t0, 25), progress: 65, status: 'in_progress' })
+
   const note = (parentType: string, parentId: string | null, body: string, pinned = false, ago = 1) =>
     out.notes.push({ ...base(), createdAt: new Date(Date.now() - ago * 86400000).toISOString(), updatedAt: new Date(Date.now() - ago * 86400000).toISOString(), parentType, parentId, body, pinned })
   note('student', sid['Emma Garcia'], 'Loves chapter books — suggest the next one in the series she’s reading.', true, 2)
@@ -114,6 +122,12 @@ export function sampleData(teacher?: { teacherName?: string; school?: string }):
   note('class', cid('2nd Grade Math'), 'Most of the class is ready for regrouping. Plan a small group for those who aren’t.', false, 3)
   note('class', cid('3rd Grade Science'), 'Order more seed trays before the seed experiment.', false, 5)
   note('general', null, 'Ideas for next month: a class garden, a visit to the library, a reading challenge.', false, 6)
+  note('student', sid['Liam Johnson'], 'Counts confidently to 40. Practice 40–60 with the hundreds chart.', false, 3)
+  note('student', sid['Zoe Nguyen'], 'Asked great questions during the plant lab. Could lead a group next time.', false, 2)
+  note('student', sid['Lucas Hall'], 'Regrouping is still tricky. Try base-ten blocks in small group.', true, 1)
+  note('student', sid['Aria Patel'], 'New this month — settling in well. Sits with Lily Flores.', false, 7)
+  note('class', cid('Kindergarten'), 'Morning routine is working. Keep the calendar song.', false, 4)
+  note('class', cid('1st Grade Reading'), 'Reading buddies with 3rd grade on Fridays — the class loves it.', false, 9)
   const firstA = out.assignments.find((a) => a.title === 'Unit 1 test')
   if (firstA) note('assignment', firstA.id, 'Question 7 confused a lot of students. Reword it next year.', false, 8)
 
@@ -129,6 +143,12 @@ export function sampleData(teacher?: { teacherName?: string; school?: string }):
   task('Class read-aloud: new chapter book', 'activity', 1, { classId: cid('Kindergarten'), isEvent: true, time: '10:15' })
   task('Science fair kickoff', 'school_event', 12, { isEvent: true })
   task('Dentist appointment', 'personal', 8, { time: '16:30', isEvent: true })
+  task('Prepare fluency passages', 'lesson_prep', 3, { classId: cid('1st Grade Reading') })
+  task('Parent meeting — Lucas Hall’s family', 'parent_meeting', 4, { time: '16:00', isEvent: true, studentId: sid['Lucas Hall'] })
+  task('Field trip permission slips due', 'school_event', 9, { isEvent: true })
+  task('Grade Unit 2 math tests', 'grading', 7, { classId: cid('2nd Grade Math') })
+  task('Staff meeting', 'school_event', 2, { time: '15:15', isEvent: true })
+  task('Order seed trays', 'personal', -3)
   task('Update reading logs', 'grading', -2)
   task('Send weekly newsletter', 'personal', -1)
 

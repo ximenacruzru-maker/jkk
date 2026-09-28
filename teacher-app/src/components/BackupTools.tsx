@@ -7,6 +7,7 @@ import { STORES, type StoreName } from '../lib/model'
 import { getProfile, saveProfile } from '../lib/profile'
 import { batch, exportAll, flushAll, replaceData } from '../lib/store'
 import { LOOK_KEY } from '../lib/theme'
+import { sampleData } from '../lib/sample'
 import { confirmDialog, toast } from './dialogs'
 import { Icon } from './icons'
 
@@ -158,13 +159,14 @@ export function ResetPanel() {
       extra: <p><button className="linkbtn" onClick={downloadBackup}>Download a backup first</button></p>,
     })
     if (!ok) return
-    await replaceData({})
+    // The demo starts over with a fresh sample classroom instead of an empty app.
+    await replaceData(__DEMO__ ? sampleData() : {})
     try { Object.keys(localStorage).filter((k) => k.startsWith('declara_teacher') && k !== LOOK_KEY).forEach((k) => localStorage.removeItem(k)) } catch { /* private mode */ }
     location.hash = '#/'
   }
   return (
     <div className="stack">
-      <p className="sub" style={{ margin: 0 }}>Removes everything this app has saved in this browser and starts over at the welcome screen. Your theme choice is kept.</p>
+      <p className="sub" style={{ margin: 0 }}>{__DEMO__ ? 'Throws away every change and reloads a fresh sample classroom.' : 'Removes everything this app has saved in this browser and starts over at the welcome screen. Your theme choice is kept.'}</p>
       <div><button className="btn-danger" onClick={reset}><span className="row" style={{ gap: 8 }}>Reset the app…</span></button></div>
     </div>
   )

@@ -44,7 +44,7 @@ export function useSaveState() { return useSyncExternalStore((f) => { saveListen
 let persistent = true
 let queue: Promise<void> = Promise.resolve()
 let pending = 0
-const channel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('declara-teacher') : null
+const channel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel(__DEMO__ ? 'declara-teacher-demo' : 'declara-teacher') : null
 
 function persist(ops: WriteOp[]) {
   if (!persistent || !ops.length) return
