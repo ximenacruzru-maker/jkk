@@ -29,11 +29,18 @@ import App from './App'
 import './styles.css'
 import './teacher.css'
 import { applyLook, cachedLook } from './lib/theme'
-import { init } from './lib/store'
+import { db, init, replaceData } from './lib/store'
+import { sampleData } from './lib/sample'
 
 applyLook(cachedLook())
 
-init().finally(() => createRoot(document.getElementById('root')!).render(
+// The demo build (npm run build:demo) opens straight into the made-up sample classroom, for showing and mockups.
+async function start() {
+  await init()
+  if (__DEMO__ && !db().get('settings', 'profile')) await replaceData(sampleData())
+}
+
+start().finally(() => createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
   </StrictMode>,

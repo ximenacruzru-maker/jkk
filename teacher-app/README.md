@@ -47,6 +47,16 @@ A single ~2 MB HTML file with everything inside it. Double-click it to open the 
 (tested in Chrome). Data is saved in that browser. Keep the file in one place — depending on the browser, moving or
 renaming it can open a fresh, empty app — and use Settings › Data & backup to move data between computers.
 
+## Demo version (for showing and mockups)
+
+```bash
+npm run build:demo          # dist-demo/: opens straight into the made-up sample classroom
+npm run build:demo-single   # dist-demo-single/Declara-Teacher-Demo.html: the same, as one file
+```
+
+The demo skips the welcome screen, loads the sample classroom (dates always relative to today), and hides the
+"sample data" banner so screenshots are clean. Everything else works as in the real app.
+
 ## Deploy
 
 `dist/` is a static site: host it on GitHub Pages, Netlify, Cloudflare Pages or any web server. It needs no server-side

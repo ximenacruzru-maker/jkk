@@ -83,7 +83,7 @@ export default function Dashboard() {
   return (
     <>
       {head}
-      {prof.sampleData && (
+      {prof.sampleData && !__DEMO__ && (
         <div className="alert alert-warn"><div className="alert-bar"><span className="alert-ico">i</span>
           <div className="alert-msg"><b>You’re exploring a sample classroom.</b> Every name here is made up. Try anything — when you’re ready, clear it and set up your own.</div>
           <button className="btn-ghost" onClick={clearSample}>Clear sample &amp; start fresh</button></div></div>

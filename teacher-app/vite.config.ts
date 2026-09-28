@@ -32,9 +32,10 @@ export default defineConfig(({ mode }) => {
   const single = mode === 'single'
   return {
     plugins: [react(), privacyLock(single)],
+    define: { __DEMO__: JSON.stringify(process.env.DEMO === '1') },
     base: './',
     build: single
-      ? { outDir: 'dist-single', assetsDir: '', assetsInlineLimit: () => true, cssCodeSplit: false, chunkSizeWarningLimit: 8000, rolldownOptions: { output: { codeSplitting: false } } }
-      : { outDir: 'dist', assetsDir: '', chunkSizeWarningLimit: 1200 },
+      ? { outDir: process.env.DEMO === '1' ? 'dist-demo-single' : 'dist-single', assetsDir: '', assetsInlineLimit: () => true, cssCodeSplit: false, chunkSizeWarningLimit: 8000, rolldownOptions: { output: { codeSplitting: false } } }
+      : { outDir: process.env.DEMO === '1' ? 'dist-demo' : 'dist', assetsDir: '', chunkSizeWarningLimit: 1200 },
   }
 })

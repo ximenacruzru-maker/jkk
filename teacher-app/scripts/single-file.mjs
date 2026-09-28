@@ -4,8 +4,9 @@
 import fs from 'fs'
 import path from 'path'
 
-const DIR = path.resolve('dist-single')
-const OUT = path.join(DIR, 'Declara-Teacher.html')
+const DEMO = process.env.DEMO === '1'
+const DIR = path.resolve(DEMO ? 'dist-demo-single' : 'dist-single')
+const OUT = path.join(DIR, DEMO ? 'Declara-Teacher-Demo.html' : 'Declara-Teacher.html')
 let html = fs.readFileSync(path.join(DIR, 'index.html'), 'utf8')
 const read = (f) => fs.readFileSync(path.join(DIR, f.replace(/^\.\//, '')))
 
