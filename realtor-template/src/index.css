@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply font-inter text-luxury-black bg-luxury-cream antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    @apply bg-luxury-gold/30 text-luxury-black;
+  }
+}
+
+@layer components {
+  /* Luxury Button Styles */
+  .btn-luxury {
+    @apply relative inline-flex items-center justify-center px-10 py-4 
+           font-inter text-sm font-medium tracking-widest uppercase
+           border border-luxury-gold/50 text-luxury-black
+           overflow-hidden transition-all duration-500 ease-out;
+  }
+
+  .btn-luxury::before {
+    content: '';
+    @apply absolute inset-0 bg-luxury-gold transform scale-x-0 origin-left transition-transform duration-500 ease-out;
+  }
+
+  .btn-luxury:hover::before {
+    @apply scale-x-100;
+  }
+
+  .btn-luxury span {
+    @apply relative z-10 transition-colors duration-500;
+  }
+
+  .btn-luxury:hover span {
+    @apply text-luxury-white;
+  }
+
+  .btn-luxury-primary {
+    @apply bg-luxury-gold text-luxury-white border-luxury-gold;
+  }
+
+  .btn-luxury-primary::before {
+    @apply bg-luxury-black;
+  }
+
+  .btn-luxury-primary:hover span {
+    @apply text-luxury-white;
+  }
+
+  /* Glass Effect */
+  .glass-luxury {
+    @apply bg-white/10 backdrop-blur-xl border border-white/20;
+  }
+
+  .glass-dark {
+    @apply bg-luxury-black/80 backdrop-blur-xl border border-white/10;
+  }
+
+  /* Text Reveal Animation */
+  .text-reapply overflowveal {
+    @-hidden;
+  }
+
+  .text-reveal span {
+    @apply inline-block transform translate-y-full opacity-0;
+    animation: revealText 0.8s ease-out forwards;
+  }
+
+  @keyframes revealText {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Parallax Container */
+  .parallax-container {
+    @apply relative overflow-hidden;
+  }
+
+  .parallax-bg {
+    @apply absolute inset-0 w-full h-full;
+    transform: translateZ(-1px) scale(1.5);
+  }
+
+  /* Image Hover Effects */
+  .img-zoom-container {
+    @apply overflow-hidden;
+  }
+
+  .img-zoom {
+    @apply transition-transform duration-700 ease-out;
+  }
+
+  .img-zoom:hover {
+    @apply scale-105;
+  }
+
+  /* Section Divider */
+  .section-divider {
+    @apply w-full h-px bg-gradient-to-r from-transparent via-luxury-taupe/30 to-transparent;
+  }
+
+  /* Luxury Heading */
+  .heading-luxury {
+    @apply font-playfair font-light tracking-wide;
+  }
+
+  .heading-cormorant {
+    @apply font-cormorant font-light;
+  }
+
+  /* Stats Counter */
+  .stat-number {
+    @apply font-playfair text-5xl md:text-7xl font-light text-luxury-gold;
+  }
+
+  /* Card Hover Effects */
+  .card-luxury {
+    @apply bg-white shadow-none transition-all duration-500;
+  }
+
+  .card-luxury:hover {
+    @apply shadow-2xl -translate-y-1;
+  }
+
+  /* Input Styles */
+  .input-luxury {
+    @apply w-full px-6 py-4 bg-transparent border-b border-luxury-taupe/40 
+           font-inter text-luxury-black placeholder-luxury-taupe/60
+           focus:outline-none focus:border-luxury-gold transition-colors duration-300;
+  }
+
+  /* Horizontal Scroll Container */
+  .horizontal-scroll {
+    @apply flex gap-8 overflow-x-auto snap-x snap-mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .horizontal-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .horizontal-scroll-item {
+    @apply flex-shrink-0 snap-center;
+  }
+
+  /* Logo Marquee */
+  .logo-marquee {
+    @apply flex items-center;
+  }
+
+  .logo-marquee-track {
+    @apply flex items-center animate-marquee;
+  }
+
+  .logo-marquee-reverse .logo-marquee-track {
+    @apply animate-marquee-reverse;
+  }
+
+  /* Property Card Overlay */
+  .property-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-luxury-black/80 via-transparent to-transparent
+           opacity-0 transition-opacity duration-500;
+  }
+
+  .property-card:hover .property-overlay {
+    @apply opacity-100;
+  }
+
+  /* Smooth Scroll Indicator */
+  .scroll-indicator {
+    @apply absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2;
+  }
+
+  .scroll-indicator-line {
+    @apply w-px h-16 bg-luxury-gold/50;
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { transform: scaleY(1); opacity: 1; }
+    50% { transform: scaleY(0.5); opacity: 0.5; }
+  }
+}
+
+@layer utilities {
+  /* Custom Scrollbar */
+  .scrollbar-luxury::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-luxury::-webkit-scrollbar-track {
+    @apply bg-luxury-cream;
+  }
+
+  .scrollbar-luxury::-webkit-scrollbar-thumb {
+    @apply bg-luxury-taupe/40 rounded-full;
+  }
+
+  /* Text Gradient */
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-luxury-gold-dark via-luxury-gold to-luxury-gold-light 
+           bg-clip-text text-transparent;
+  }
+
+  /* Mask Effects */
+  .mask-fade-right {
+    mask-image: linear-gradient(to right, black 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 70%, transparent 100%);
+  }
+
+  .mask-fade-left {
+    mask-image: linear-gradient(to left, black 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to left, black 70%, transparent 100%);
+  }
+
+  /* Hide scrollbar but allow scrolling */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* GSAP Animation Helper Classes */
+.gsap-fade-in {
+  opacity: 0;
+}
+
+.gsap-slide-up {
+  opacity: 0;
+  transform: translateY(60px);
+}
+
+/* Custom Easing */
+.ease-luxury {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ease-luxury-slow {
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
